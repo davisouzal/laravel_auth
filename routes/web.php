@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ResourceController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -21,5 +22,6 @@ Route::middleware(['auth'])->group(function () {
         return view('dashboard');
     });
     Route::resource('/resources', ResourceController::class);
+    Route::resource('/users', UserController::class);
 });
 
