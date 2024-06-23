@@ -28,6 +28,22 @@
 
         <a href="{{ route('resources.create') }}" class="btn btn-primary mb-3">Create User</a>
 
+        <div class="row mb-3">
+            @foreach ($logs as $log)
+            <div>
+                <ul>
+                    <li><b>Id: </b> {{ $log->id }}</li>
+                    <li><b>idUser: </b> {{ $log->idUser }}</li>
+                    <li><b>Ação:</b> {{ $log->action }}</li>
+                    <li><b>tabela:</b> {{ $log->tableName }}</li>
+                    <li><b>colunas:</b> {{ $log->columnName }}</li>
+                    <li><b>antigo:</b> {{ $log->oldValue }}</li>
+                    <li><b>novo:</b> {{ $log->newValue }}</li>
+                    <li><b>record:</b> {{ $log->idRecord }}</li>
+                </ul>
+            </div>
+            @endforeach
+        </div>
         <table class="table table-bordered">
             <thead>
                 <tr>

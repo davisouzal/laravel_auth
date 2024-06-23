@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ResourceRequest;
+use App\Models\Log;
 use App\Repositories\ResourceRepository;
 use Illuminate\Support\Facades\Redirect;
 
@@ -21,7 +22,8 @@ class ResourceController extends Controller
     {
         try{
             $resources = $this->resourceRepository->findAll();
-            return view('resources.index', compact('resources'));
+            $logs = Log::all();
+            return view('resources.index', compact('resources', 'logs'));
         } catch (\Exception $e) {
             dd($e->getMessage());
             return Redirect::back()->withErrors(['error' => $e->getMessage()]);
@@ -108,7 +110,7 @@ class ResourceController extends Controller
     {
         try {
             $this->resourceRepository->delete($number);
-            return Redirect::route('resourcees.index')->with('success', 'resource deleted successfully');
+            return Redirect::route('resources.index')->with('success', 'resource deleted successfully');
         } catch (\Exception $e) {
             dd($e->getMessage());
             return Redirect::back()->withErrors(['error' => $e->getMessage()]);
