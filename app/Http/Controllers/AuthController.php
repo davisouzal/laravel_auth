@@ -3,12 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Services\LoginLogService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
+    protected $loginLogService;
+
+    public function __construct(LoginLogService $loginLogService)
+    {
+        $this->loginLogService = $loginLogService;
+    }
+
     public function showLoginForm()
     {
         return view('auth.login');
@@ -23,6 +31,8 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
+
+            $this->loginLogService->logLogin(Auth::id());
 
             return redirect()->intended('/dashboard');
         }
@@ -42,7 +52,7 @@ class AuthController extends Controller
         return redirect('/dashboard');
     }
 
-     public function showRegisterForm()
+    public function showRegisterForm()
     {
         return view('auth.register');
     }
@@ -61,6 +71,9 @@ class AuthController extends Controller
 
         Auth::login($user);
 
+        $this->loginLogService->logLogin(Auth::id());
+
         return redirect('/dashboard');
     }
 }
+

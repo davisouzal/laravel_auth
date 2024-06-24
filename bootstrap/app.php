@@ -17,14 +17,14 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        $exceptions->dontReportDuplicates();
-        $exceptions->renderable(function (\Throwable $e) {
-            if ($e instanceof NotFoundHttpException && $e->getPrevious() instanceof ModelNotFoundException) {
-                $modelException = $e->getPrevious();
-                $model = class_basename($modelException->getModel());
-                $id = $modelException->getIds()[0];
-                throw new ItemNotFound($model, $id);
-            }
-            return response()->view('errors.general', ['error' => $e->getMessage()]);
-        });
+        // $exceptions->dontReportDuplicates();
+        // $exceptions->renderable(function (\Throwable $e) {
+        //     if ($e instanceof NotFoundHttpException && $e->getPrevious() instanceof ModelNotFoundException) {
+        //         $modelException = $e->getPrevious();
+        //         $model = class_basename($modelException->getModel());
+        //         $id = $modelException->getIds()[0];
+        //         throw new ItemNotFound($model, $id);
+        //     }
+        //     return response()->view('errors.general', ['error' => $e->getMessage()]);
+        // });
     })->create();
