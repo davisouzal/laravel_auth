@@ -28,7 +28,7 @@
 
         <a href="{{ route('resources.create') }}" class="btn btn-primary mb-3">Create User</a>
 
-        <div class="row mb-3">
+        {{-- <div class="row mb-3">
             @foreach ($logs as $log)
             <div>
                 <ul>
@@ -43,7 +43,7 @@
                 </ul>
             </div>
             @endforeach
-        </div>
+        </div> --}}
         <table class="table table-bordered">
             <thead>
                 <tr>

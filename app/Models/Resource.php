@@ -18,10 +18,8 @@ class Resource extends Model
 
     protected static function booted()
     {
-        static::saved(function ($model) {
-            if ($model->created_at && $model->created_at->diffInSeconds(Carbon::now()) <= 5) {
-                app(LoggerService::class)->logStore($model, auth()->user());
-            }
+        static::created(function ($model) {
+            app(LoggerService::class)->logStore($model, auth()->user());
         });
 
         static::updated(function ($model) {

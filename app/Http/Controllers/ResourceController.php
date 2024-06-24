@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\ItemNotFound;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ResourceRequest;
 use App\Models\Log;
@@ -20,14 +21,8 @@ class ResourceController extends Controller
      */
     public function index()
     {
-        try{
-            $resources = $this->resourceRepository->findAll();
-            $logs = Log::all();
-            return view('resources.index', compact('resources', 'logs'));
-        } catch (\Exception $e) {
-            dd($e->getMessage());
-            return Redirect::back()->withErrors(['error' => $e->getMessage()]);
-        }
+        $resources = $this->resourceRepository->findAll();
+        return view('resources.index', compact('resources'));
     }
 
     /**
@@ -35,13 +30,7 @@ class ResourceController extends Controller
      */
     public function create()
     {
-        try {
-            // substituir por repository de escolas e usuários
-            return view('resources.create');
-        } catch (\Exception $e) {
-            dd($e->getMessage());
-            return Redirect::back()->withErrors(['error' => $e->getMessage()]);
-        }
+        return view('resources.create');
     }
 
     /**
@@ -49,14 +38,9 @@ class ResourceController extends Controller
      */
     public function store(ResourceRequest $request)
     {
-        try {
-            $data = $request->all();
-            $this->resourceRepository->save($data);
-            return Redirect::route('resources.index')->with('success', 'resource created successfully');
-        } catch (\Exception $e) {
-            dd($e->getMessage());
-            return Redirect::back()->withErrors(['error' => $e->getMessage()]);
-        }
+        $data = $request->all();
+        $this->resourceRepository->save($data);
+        return Redirect::route('resources.index')->with('success', 'resource created successfully');
     }
 
     /**
@@ -64,13 +48,8 @@ class ResourceController extends Controller
      */
     public function show(string $number)
     {
-        try {
-            $resource = $this->resourceRepository->findById($number);
-            return view('resources.show', compact('resource'));
-        } catch (\Exception $e) {
-            dd($e->getMessage());
-            return Redirect::back()->withErrors(['error' => $e->getMessage()]);
-        }
+        $resource = $this->resourceRepository->findById($number);
+        return view('resources.show', compact('resource'));
     }
 
     /**
@@ -78,13 +57,8 @@ class ResourceController extends Controller
      */
     public function edit(string $number)
     {
-        try {
-            $resource = $this->resourceRepository->findById($number);
-            return view('resources.edit', compact('resource'));
-        } catch (\Exception $e) {
-            dd($e->getMessage());
-            return Redirect::back()->withErrors(['error' => $e->getMessage()]);
-        }
+        $resource = $this->resourceRepository->findById($number);
+        return view('resources.edit', compact('resource'));
     }
 
     /**
@@ -92,15 +66,10 @@ class ResourceController extends Controller
      */
     public function update(ResourceRequest $request, string $number)
     {
-        try {
-            $data = $request->all();
-            $this->resourceRepository->update($number, $data);
-            return Redirect::route('resources.index')->with('success', 'resource updated successfully');
-        } catch (\Exception $e) {
-            dd($e->getMessage());
-            return Redirect::back()->withErrors(['error' => $e->getMessage()]);
 
-        }
+        $data = $request->all();
+        $this->resourceRepository->update($number, $data);
+        return Redirect::route('resources.index')->with('success', 'resource updated successfully');
     }
 
     /**
@@ -108,12 +77,7 @@ class ResourceController extends Controller
      */
     public function destroy(string $number)
     {
-        try {
-            $this->resourceRepository->delete($number);
-            return Redirect::route('resources.index')->with('success', 'resource deleted successfully');
-        } catch (\Exception $e) {
-            dd($e->getMessage());
-            return Redirect::back()->withErrors(['error' => $e->getMessage()]);
-        }
+        $this->resourceRepository->delete($number);
+        return Redirect::route('resources.index')->with('success', 'resource deleted successfully');
     }
 }
